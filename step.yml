@@ -1,18 +1,14 @@
-#
-# A couple of useful guides & docs:
-#
-# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
-# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
-# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
-# - Bitrise docs: http://devcenter.bitrise.io/
-# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
-
-title: |-
-  Jandi message
-summary: |
-  send a jandi message
+title: Send a Jandi message
+summary: Send a [Jandi](http://bit.ly/2FiXoc5) message to a topick.
 description: |
-  send a jandi message
+  Send a [Jandi](http://bit.ly/2FiXoc5) message to a topick.
+  You can setup **Incoming WebHook integration**.
+  To register an **Incoming WebHook integration** visit http://bit.ly/31Bxeeh
+
+  *Don't forget to enable this Step to **Always run** if
+  you want to get notified about failed builds as well!*
+
+  This Step is inspired from [Send a slck message step](https://github.com/bitrise-steplib/steps-slack-message).
 website: https://github.com/kimjunil/bitrise-step-jandi-message
 source_code_url: https://github.com/kimjunil/bitrise-step-jandi-message
 support_url: https://github.com/kimjunil/bitrise-step-jandi-message/issues
@@ -20,15 +16,6 @@ host_os_tags:
   - osx-10.10
   - ubuntu-16.04
 
-# If this step should be available only for certain project types
-# just uncomment this `project_type_tags` section and include all the
-# project types supported by the step. If the step can be used for all
-# project types then you can just remove this section.
-# If no `project_type_tags` specified (or specified as an empty array)
-# that means the step can be used for any project type.
-# You can find more information about project type tags in the Step Development Guideline:
-# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
-#
 # project_type_tags:
 #   - ios
 #   - macos
@@ -38,16 +25,12 @@ host_os_tags:
 #   - cordova
 #   - ionic
 
-# Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
-# You can find more information about type tags in the Step Development Guideline:
-# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
 type_tags:
   - notification
 
 is_requires_admin_user: true
-is_always_run: false
-is_skippable: false
-run_if: ""
+is_always_run: true
+is_skippable: true
 
 deps:
   brew:
@@ -57,31 +40,103 @@ deps:
   - name: git
   - name: wget
 
-
 toolkit:
   go:
     package_name: github.com/kimjunil/bitrise-step-jandi-message
 
-
 inputs:
-  - example_step_input: Default Value - you can leave this empty if you want to
+  # Debug mode?
+  - is_debug_mode: "no"
     opts:
-      title: "Example Step Input"
-      summary: Summary. No more than 2-3 sentences.
+      title: "Debug mode?"
       description: |
-        Description of this input.
+        Step prints additional debug information if this option
+        is enabled
+      value_options:
+      - "yes"
+      - "no"
 
-        Can be Markdown formatted text.
-      is_expand: true
+  # Webhook url
+  - jandi_webhook_url:
+    opts:
+      title: "Slack Webhook URL (Webhook or API token is required)"
+      description: |
+        To register an **Incoming WebHook integration** visit http://bit.ly/31Bxeeh
       is_required: true
-      value_options: []
-
-outputs:
-  - EXAMPLE_STEP_OUTPUT:
+      is_sensitive: true
+  
+  # Message input
+  - message_body:
     opts:
-      title: "Example Step Output"
-      summary: Summary. No more than 2-3 sentences.
+      title: "Text of the message to send."
       description: |
-        Description of this output.
+        Text of the message to send.
+        This field is the only required field and will not generate a message if there is no content in this field.
+      is_required: true
 
-        Can be Markdown formatted text.
+  - message_body_on_error:
+    opts:
+      title: "Text of the message to send, if the build failed"
+      description: |
+        **This option will be used if the build failed.** If you
+        leave this option empty then the default one will be used.
+      category: If Build Failed
+  
+  - color: "#3bc3a3"
+    opts:
+      title: "Message color"
+      description: |
+        You can specify the color value of the attachment area, which is divided into separate areas at the bottom of the body message.
+        Can be any hex color code (eg. #439FE0).
+
+  - color_on_error: "#f0741f"
+    opts:
+      title: "Message color if the build failed"
+      description: |
+        **This option will be used if the build failed.** If you
+        leave this option empty then the default one will be used.
+      category: If Build Failed
+
+  # Attachment input
+  - attachment_area_title:
+    opts:
+      title: "Title of the attachment area."
+      description: |
+        Title of the attachment area, displayed in bold by default.
+
+  - attachment_area_title_on_error:
+    opts:
+      title: "Title of the attachment area if the build failed"
+      description: |
+        **This option will be used if the build failed.** If you
+        leave this option empty then the default one will be used.
+      category: If Build Failed
+
+  - attachment_area_description:
+    opts:
+      title: "Description of the attachment area."
+      description: |
+        Description of the attachment area.
+
+  - attachment_area_description_on_error:
+    opts:
+      title: "Description of the attachment area if the build failed"
+      description: |
+        **This option will be used if the build failed.** If you
+        leave this option empty then the default one will be used.
+      category: If Build Failed
+
+  - attachment_area_image_url:
+    opts:
+      title: "A URL to an image file that will be displayed as a thumbnail"
+      description: |
+        If you have an image file attached to that webhook message, you can attach it as a URL. 
+        We will provide a thumbnail of the image corresponding to the URL later with the message.
+        
+  - attachment_area_image_url_on_error:
+    opts:
+      title: "Thumbnail if the build failed"
+      description: |
+        **This option will be used if the build failed.** If you
+        leave this option empty then the default one will be used.
+      category: If Build Failed
