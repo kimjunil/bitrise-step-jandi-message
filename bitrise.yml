@@ -7,7 +7,7 @@ app:
   - JANDI_WEBHOOK_URL: $JANDI_WEBHOOK_URL
   # If you want to share this step into a StepLib
   - BITRISE_STEP_ID: jandi-message
-  - BITRISE_STEP_VERSION: "0.0.1"
+  - BITRISE_STEP_VERSION: "0.1.0"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/kimjunil/bitrise-step-jandi-message.git
   - MY_STEPLIB_REPO_FORK_GIT_URL: $MY_STEPLIB_REPO_FORK_GIT_URL
 
@@ -59,7 +59,7 @@ workflows:
             go get -u -v github.com/golang/dep/cmd/dep
             dep ensure -v
             dep ensure -v -update
-            
+
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
   audit-this-step:
