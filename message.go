@@ -1,6 +1,6 @@
 package main
 
-// Message to post to a Jandi topick.
+// Message to post to a Jandi topic.
 // See also: http://bit.ly/31Bxeeh
 type Message struct {
 	MessageBody string       `json:"body,omitempty"`

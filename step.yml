@@ -1,14 +1,10 @@
 title: Send a Jandi message
-summary: Send a [Jandi](http://bit.ly/2FiXoc5) message to a topick.
+summary: Send a [Jandi](http://bit.ly/2FiXoc5) message to a topic.
 description: |
-  Send a [Jandi](http://bit.ly/2FiXoc5) message to a topick.
+  Send a [Jandi](http://bit.ly/2FiXoc5) message to a topic.
   You can setup **Incoming WebHook integration**.
   To register an **Incoming WebHook integration** visit http://bit.ly/31Bxeeh
 
-  *Don't forget to enable this Step to **Always run** if
-  you want to get notified about failed builds as well!*
-
-  This Step is inspired from [Send a slck message step](https://github.com/bitrise-steplib/steps-slack-message).
 website: https://github.com/kimjunil/bitrise-step-jandi-message
 source_code_url: https://github.com/kimjunil/bitrise-step-jandi-message
 support_url: https://github.com/kimjunil/bitrise-step-jandi-message/issues
@@ -16,29 +12,12 @@ host_os_tags:
   - osx-10.10
   - ubuntu-16.04
 
-# project_type_tags:
-#   - ios
-#   - macos
-#   - android
-#   - xamarin
-#   - react-native
-#   - cordova
-#   - ionic
-
 type_tags:
   - notification
 
 is_requires_admin_user: true
 is_always_run: true
 is_skippable: true
-
-deps:
-  brew:
-  - name: git
-  - name: wget
-  apt_get:
-  - name: git
-  - name: wget
 
 toolkit:
   go:
@@ -59,7 +38,7 @@ inputs:
   # Webhook url
   - jandi_webhook_url:
     opts:
-      title: "Slack Webhook URL (Webhook or API token is required)"
+      title: "Jandi Webhook URL (Webhook URL is required)"
       description: |
         To register an **Incoming WebHook integration** visit http://bit.ly/31Bxeeh
       is_required: true
@@ -71,7 +50,7 @@ inputs:
       title: "Text of the message to send."
       description: |
         Text of the message to send.
-        This field is the only required field and will not generate a message if there is no content in this field.
+        This field is required and will not generate a message if there is no content in this field.
       is_required: true
 
   - message_body_on_error:
@@ -140,3 +119,4 @@ inputs:
         **This option will be used if the build failed.** If you
         leave this option empty then the default one will be used.
       category: If Build Failed
+
